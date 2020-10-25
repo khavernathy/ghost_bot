@@ -107,9 +107,14 @@ async def halp(ctx):
 async def hello(ctx):
     await ctx.send("Hello")
 
-@bot.command()
-async def rand(ctx):
-    await ctx.send(str(np.random.random()))
+# give me a random int from 1 -> n
+@bot.command(pass_context=True)
+async def rand(ctx, val):
+    if isinstance(int(val), int):
+        val = int(val)
+        await ctx.send(':game_die: ' + str(int(np.ceil(np.random.random() * val))))
+    else:
+        await ctx.send('u didnt give me an integer binch')
 
 @bot.command(pass_context=True)
 async def ghost(ctx, msg):
@@ -146,6 +151,7 @@ async def ghost(ctx, msg):
     else:
         await ctx.send('I dont understand u. Here i halp. Use like dis:\n**!ghost emf,box,prints,orbs,writing,freeze**')
 
+# run the bot using super special secret token
 bot.run(str(
     np.genfromtxt('TOKEN', dtype='str')
 ))
