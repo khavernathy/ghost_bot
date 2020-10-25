@@ -2,6 +2,36 @@ import discord
 from discord.ext import commands
 import numpy as np
 
+# to add to your discord channel,
+# https://discord.com/oauth2/authorize?client_id=769805113266798593&scope=bot
+
+# metric for similarity between strings for typo-fix
+def levenshtein(seq1, seq2):
+    size_x = len(seq1) + 1
+    size_y = len(seq2) + 1
+    matrix = np.zeros ((size_x, size_y))
+    for x in range(size_x):
+        matrix [x, 0] = x
+    for y in range(size_y):
+        matrix [0, y] = y
+
+    for x in range(1, size_x):
+        for y in range(1, size_y):
+            if seq1[x-1] == seq2[y-1]:
+                matrix [x,y] = min(
+                    matrix[x-1, y] + 1,
+                    matrix[x-1, y-1],
+                    matrix[x, y-1] + 1
+                )
+            else:
+                matrix [x,y] = min(
+                    matrix[x-1,y] + 1,
+                    matrix[x-1,y-1] + 1,
+                    matrix[x,y-1] + 1
+                )
+    #print (matrix)
+    return (matrix[size_x - 1, size_y - 1])
+
 evidence = ['emf', 'box', 'prints', 'orbs', 'writing', 'freeze']
 ghosts = dict({'spirit': [1,2,4],
     'wraith': [1,2,5],
@@ -31,6 +61,34 @@ ghost_desc = dict({
     'oni': 'Onis are a cousin to the Demon and possess extreme strength.There have been rumors that they become more active around their prey.\nStrengths: Onis are more active when people are nearby and have been seen moving objects at great speed.\nWeaknesses: Being more active will make the Oni easier to find and identify.'
     })
 
+# synonym function to translate user input smartly
+def syn(x):
+    if len(x) > 2:
+        # literal match
+        for evi in evidence:
+            if x == evi:
+                return x
+        # string match
+        for evi in evidence:
+            if all(item in evi for item in x):
+                return evi
+        # typo match
+        for evi in evidence:
+            if levenshtein(x.lower(), evi) < 4:
+                return evi
+        # (typo + ) alias match
+        aliases = dict({'finger': 'prints',
+                        'book': 'writing',
+                        'temp': 'freeze',
+                        'spirit': 'box'
+                        })
+        for key in aliases:
+            if all(item in key for item in x) or levenshtein(x.lower(), key) < 4:
+                return aliases[key]
+
+    # if only 2 chars or less this isnt worth it
+    return x
+
 def ghost_clues_string(ghost):
     i = ghosts[ghost]
     return evidence[i[0]] + ", " + evidence[i[1]] + ", " + evidence[i[2]]
@@ -57,8 +115,17 @@ async def rand(ctx):
 async def ghost(ctx, msg):
     # get match indices
     matches = []
+    # split input args by comma
     clues = msg.split(",")
+    # find synonyms and aliases
+    for i,clue in enumerate(clues):
+        clues[i] = syn(clue)
+    # show resultant clues to user first
+    await ctx.send(clues)
+
+    # find matches
     for clue in clues:
+        clue = syn(clue) # get synonyms
         for i,evi in enumerate(evidence):
             if evi == clue:
                 matches.append(i)
@@ -74,11 +141,11 @@ async def ghost(ctx, msg):
         #await ctx.send(clues)
         for candidate in ghost_matches:
             await ctx.send('`' + candidate + ": " + ghost_clues_string(candidate) + '`')
-            await ctx.send(ghost_desc[candidate])
+            #await ctx.send(ghost_desc[candidate])
 
     else:
         await ctx.send('I dont understand u. Here i halp. Use like dis:\n**!ghost emf,box,prints,orbs,writing,freeze**')
 
-
-
-bot.run('NzY5ODA1MTEzMjY2Nzk4NTkz.X5UW4Q.U8h2xBDqWXo4oOehn4ZM6szwIPQ')
+bot.run(str(
+    np.genfromtxt('TOKEN', dtype='str')
+))
