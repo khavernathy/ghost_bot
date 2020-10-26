@@ -99,10 +99,6 @@ def syn(x):
         for evi in evidence:
             if all(item in evi for item in x):
                 return evi
-        # typo match
-        for evi in evidence:
-            if levenshtein(x.lower(), evi) < 4:
-                return evi
         # (typo + ) alias match
         aliases = dict({'finger': 'prints',
                         'book': 'writing',
@@ -112,6 +108,10 @@ def syn(x):
         for key in aliases:
             if all(item in key for item in x) or levenshtein(x.lower(), key) < 4:
                 return aliases[key]
+        # typo match
+        for evi in evidence:
+            if levenshtein(x.lower(), evi) < 4:
+                return evi
 
     # if only 2 chars or less this isnt worth it
     return x
