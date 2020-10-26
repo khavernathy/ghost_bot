@@ -106,7 +106,7 @@ def syn(x):
                         'spirit': 'box'
                         })
         for key in aliases:
-            if all(item in key for item in x) or levenshtein(x.lower(), key) < 4:
+            if all(item in key for item in x) or levenshtein(x.lower(), key) < 3:
                 return aliases[key]
         # typo match
         for evi in evidence:
@@ -120,7 +120,7 @@ def syn(x):
 # same but for ghost-names
 def syn_ghost(x):
     for ghost in ghosts:
-        if all(item in ghost for item in x) or levenshtein(x.lower(), ghost) < 4:
+        if all(item in ghost for item in x) or levenshtein(x.lower(), ghost) < 3:
             return ghost
     return x
 
@@ -138,6 +138,7 @@ def ghost_clues_string(ghost, clues):
 
 
 bot = commands.Bot(command_prefix='!')
+
 
 @bot.event
 async def on_ready():
