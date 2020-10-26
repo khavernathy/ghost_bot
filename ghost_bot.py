@@ -6,18 +6,19 @@ import numpy as np
 # https://discord.com/oauth2/authorize?client_id=769805113266798593&scope=bot
 
 evidence = ['emf', 'box', 'prints', 'orbs', 'writing', 'freeze']
-ghosts = dict({'spirit': [1,2,4],
-    'wraith': [1,2,5],
-    'phantom': [0,3,5],
-    'poltergeist': [1,2,3],
-    'banshee': [0,2,5],
-    'jinn': [0,1,3],
-    'mare': [1,3,5],
-    'revenant': [0,2,4],
-    'shade': [0,3,4],
-    'demon': [1,4,5],
-    'yurei': [3,4,5],
-    'oni': [0,1,4]})
+ghosts = dict({'spirit': [1, 2, 4],
+               'wraith': [1, 2, 5],
+               'phantom': [0, 3, 5],
+               'poltergeist': [1, 2, 3],
+               'banshee': [0, 2, 5],
+               'jinn': [0, 1, 3],
+               'mare': [1, 3, 5],
+               'revenant': [0, 2, 4],
+               'shade': [0, 3, 4],
+               'demon': [1, 4, 5],
+               'yurei': [3, 4, 5],
+               'oni': [0, 1, 4]
+               })
 
 ghost_desc = dict({
     'spirit': 'A spirit is the most common Ghost you will come across however it is still very powerful and dangerous. They are usually discovered at one of their hunting grounds after an unexplained death.'
@@ -57,6 +58,7 @@ ghost_desc = dict({
            '\n\n:muscle: Strengths: Onis are more active when people are nearby and have been seen moving objects at great speed.'
            '\n:no_entry: Weaknesses: Being more active will make the Oni easier to find and identify.'
     })
+
 
 # metric for similarity between strings for typo-fix
 def levenshtein(seq1, seq2):
@@ -129,11 +131,9 @@ def ghost_clues_string(ghost, clues):
     givens = []
     for given in clues:
         givens.append(evidence.index(given))
-
     m1 = ':green_circle: ' if inds[0] in givens else ':red_circle: '
     m2 = ':green_circle: ' if inds[1] in givens else ':red_circle: '
     m3 = ':green_circle: ' if inds[2] in givens else ':red_circle: '
-
     return m1 + evidence[inds[0]] + ", " + m2 + evidence[inds[1]] + ", " + m3 + evidence[inds[2]]
 
 
@@ -199,7 +199,10 @@ async def ghost(ctx, msg):
         #await ctx.send(clues)
         for candidate in ghost_matches:
             await ctx.send(':ghost: `' + candidate + "`: " + ghost_clues_string(candidate, clues))
-            #await ctx.send(ghost_desc[candidate])
+
+        # finally, if we narrowed it down, show ghost info
+        if len(ghost_matches) == 1:
+            await ctx.send(ghost_desc[candidate])
 
     else:
         await ctx.send('I dont understand u. Here i halp. Use like dis:\n**!ghost emf,box,prints,orbs,writing,freeze**')
