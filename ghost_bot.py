@@ -110,7 +110,7 @@ def syn(x):
                 return aliases[key]
         # typo match
         for evi in evidence:
-            if levenshtein(x.lower(), evi) < 4:
+            if levenshtein(x.lower(), evi) < 3:
                 return evi
 
     # if only 2 chars or less this isnt worth it
