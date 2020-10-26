@@ -175,6 +175,8 @@ async def ghost(ctx, msg):
     if any('' in clues for item in clues):
         await ctx.send('Dont use spaces between the commas.')
         return
+    elif len(clues) > 3:
+        await ctx.send('No more than three clues allowed.')
     # find synonyms and aliases
     for i,clue in enumerate(clues):
         clues[i] = syn(clue)
@@ -205,7 +207,8 @@ async def ghost(ctx, msg):
             await ctx.send(ghost_desc[candidate])
 
     else:
-        await ctx.send('I dont understand u. Here i halp. Use like dis:\n**!ghost emf,box,prints,orbs,writing,freeze**')
+        await ctx.send('I dont understand u. Here i halp. Use like dis:'
+                       '\n**!ghost emf,box,prints,orbs,writing,freeze**')
 
 
 # get information about a specific ghost-type
