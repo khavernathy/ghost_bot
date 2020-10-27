@@ -70,9 +70,11 @@ def syn(x):
                 return evi
         # alias match. Order matters because edge cases suck
         aliases = dict({'spirit': 'box',
+                        'radio': 'box',
                         'finger': 'prints',
                         'book': 'writing',
                         'temp': 'freeze',
+                        'freezing': 'freeze',
                         })
         for key in aliases:
             if lev(x.lower(), key):
@@ -176,7 +178,7 @@ async def ghost(ctx, msg):
         await ctx.send('I dont understand u. Here i halp. Use like dis:'
                        '\n**!ghost emf,box,prints,orbs,writing,freeze**'
                        '\n**!info poltergeist**'
-                       '\n**!rand 6')
+                       '\n**!rand 6**')
 
 
 # get information about a specific ghost-type
