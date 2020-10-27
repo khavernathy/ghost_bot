@@ -29,10 +29,11 @@ def levenshtein(seq1, seq2):
     lev = (matrix[size_x - 1, size_y - 1])
 
     # determine if the strings "should be" the same or nah
+    # small words should have tighter criteria
     if len(seq1) < 4 or len(seq2) < 4:
         if lev == 1:
             return True
-    # two characters off is okay if the word is 4+ letters i guess
+    # two characters off is okay if the word(s) is 4+ letters i guess
     elif lev < 3:
         return True
     else:
