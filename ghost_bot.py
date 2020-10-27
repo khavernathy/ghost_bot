@@ -166,8 +166,10 @@ async def ghost(ctx, msg):
                 ghost_matches.append(ghost)
 
         #await ctx.send(clues)
+        out_str = ""
         for candidate in ghost_matches:
-            await ctx.send(':ghost: `' + candidate + "`: " + ghost_clues_string(candidate, clues))
+            out_str = out_str + ":ghost: `" + candidate + "`: " + ghost_clues_string(candidate, clues))
+        await ctx.send(out_str)
 
         # finally, if we narrowed it down, show ghost info
         if len(ghost_matches) == 1:
