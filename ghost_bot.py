@@ -86,7 +86,7 @@ def syn(x):
 # same but for ghost-names
 def syn_ghost(x):
     for ghost in ghosts:
-        if all(item in ghost for item in x) or lev(x.lower(), ghost):
+        if lev(x.lower(), ghost):
             return ghost
     return x
 
@@ -177,7 +177,9 @@ async def ghost(ctx, msg):
 
     else:
         await ctx.send('I dont understand u. Here i halp. Use like dis:'
-                       '\n**!ghost emf,box,prints,orbs,writing,freeze**')
+                       '\n**!ghost emf,box,prints,orbs,writing,freeze**'
+                       '\n**!info poltergeist**'
+                       '\n**!rand 6')
 
 
 # get information about a specific ghost-type
