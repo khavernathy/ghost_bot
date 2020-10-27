@@ -184,7 +184,9 @@ async def ghost(ctx, msg):
 # get information about a specific ghost-type
 @bot.command(pass_context=True)
 async def info(ctx, msg):
-    await ctx.send(':ghost: ' + ghost_desc[syn_ghost(msg)])
+    ghostname = syn_ghost(msg)
+    await ctx.send(':ghost: `' + ghostname + '`: ' + ghost_clues_string(ghostname, []) + '\n' +
+                   ghost_desc[ghostname])
 
 
 # run the bot using super special secret token
