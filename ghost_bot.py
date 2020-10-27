@@ -77,9 +77,6 @@ def syn(x):
         for key in aliases:
             if lev(x.lower(), key):
                 return aliases[key]
-
-
-    # if only 2 chars or less this isnt worth it
     return x
 
 
