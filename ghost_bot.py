@@ -72,11 +72,11 @@ def syn(x):
         for evi in evidence:
             if all(item in evi for item in x):
                 return evi
-        # (typo + ) alias match
-        aliases = dict({'finger': 'prints',
+        # (typo + ) alias match. Order matters because edge cases suck
+        aliases = dict({'spirit': 'box',
+                        'finger': 'prints',
                         'book': 'writing',
                         'temp': 'freeze',
-                        'spirit': 'box'
                         })
         for key in aliases:
             if all(item in key for item in x) or lev(x.lower(), key):
