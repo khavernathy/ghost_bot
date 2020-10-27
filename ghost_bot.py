@@ -64,27 +64,20 @@ ghost_desc = dict({
 # synonym function to translate user input smartly
 def syn(x):
     if len(x) > 2:
-        # literal match
+        # string (including literal) match
         for evi in evidence:
-            if x == evi:
-                return x
-        # string match
-        for evi in evidence:
-            if all(item in evi for item in x):
+            if lev(x.lower(), evi):
                 return evi
-        # (typo + ) alias match. Order matters because edge cases suck
+        # alias match. Order matters because edge cases suck
         aliases = dict({'spirit': 'box',
                         'finger': 'prints',
                         'book': 'writing',
                         'temp': 'freeze',
                         })
         for key in aliases:
-            if all(item in key for item in x) or lev(x.lower(), key):
+            if lev(x.lower(), key):
                 return aliases[key]
-        # typo match
-        for evi in evidence:
-            if lev(x.lower(), evi):
-                return evi
+
 
     # if only 2 chars or less this isnt worth it
     return x
