@@ -23,7 +23,7 @@ ghosts = dict({'spirit': [1, 2, 4],
 
 ghost_desc = dict({
     'spirit': 'A spirit is the most common Ghost you will come across however it is still very powerful and dangerous. They are usually discovered at one of their hunting grounds after an unexplained death.'
-              '\n\nStrenghts: Nothing'
+              '\n\n:muscle: Strengths: Nothing'
               '\n:no_entry: Weaknesses: Using Smudge Sticks on a Spirit will stop it attacking for a long period of time.',
     'wraith': 'A wraith is one of the most dangerous Ghosts you will find. It is also the only known Ghost that has the abililty of flight and has sometimes been known to travel through walls.'
               '\n\n:muscle: Strengths: Wraiths almost never touch the ground meaning it cant be tracked by footsteps.'
@@ -31,7 +31,7 @@ ghost_desc = dict({
     'phantom': 'A Phantom is a Ghost that can possess the living, most commonly summoned by a Ouija board. It also induces fear into those around it.'
                '\n\n:muscle: Strengths: Looking at a phantom will considerably drop your sanity.'
                '\n:no_entry: Weaknesses: Taking a photo of the Phantom will make it temporarily disappear.',
-    'poltergeist': 'One of the most famous Ghosts, a Poltergeist, alsso know as a noisy ghost can manipulate objects around it to spread fear into its victims.'
+    'poltergeist': 'One of the most famous Ghosts, a Poltergeist, also know as a noisy ghost can manipulate objects around it to spread fear into its victims.'
                    '\n\n:muscle: Strengths: A Poltergeist can throw huge amounts of objects at once.'
                    '\n:no_entry: Weaknesses: A Poltergeist is almost ineffective in an empty room.',
     'banshee': 'A Banshee is a natural hunter and will attack anything. It has been known to stalk its prey one at a time until making its kill.'
@@ -91,14 +91,19 @@ def syn_ghost(x):
 
 
 # get a string that shows the clues true for a given ghost with respect to user input clues
-def ghost_clues_string(ghost, clues):
+def ghost_clues_string(ghost, clues, blanks=False):
     inds = ghosts[ghost]
     givens = []
     for given in clues:
         givens.append(evidence.index(given))
-    m1 = ':green_circle: ' if inds[0] in givens else ':red_circle: '
-    m2 = ':green_circle: ' if inds[1] in givens else ':red_circle: '
-    m3 = ':green_circle: ' if inds[2] in givens else ':red_circle: '
+    if blanks:
+        m1 = ':grey_question:'
+        m2 = ':grey_question:'
+        m3 = ':grey_question:'
+    else:
+        m1 = ':green_circle: ' if inds[0] in givens else ':red_circle: '
+        m2 = ':green_circle: ' if inds[1] in givens else ':red_circle: '
+        m3 = ':green_circle: ' if inds[2] in givens else ':red_circle: '
     return m1 + evidence[inds[0]] + ", " + m2 + evidence[inds[1]] + ", " + m3 + evidence[inds[2]]
 
 
@@ -185,7 +190,8 @@ async def ghost(ctx, msg):
 @bot.command(pass_context=True)
 async def info(ctx, msg):
     ghostname = syn_ghost(msg)
-    await ctx.send(':ghost: `' + ghostname + '`: ' + ghost_clues_string(ghostname, []) + '\n' +
+    await ctx.send(':ghost: `' + ghostname + '`: ' +
+                   ghost_clues_string(ghostname, [], blanks=True) + '\n' +
                    ghost_desc[ghostname])
 
 
