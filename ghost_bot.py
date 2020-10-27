@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import numpy as np
+from levenshtein import levenshtein as lev
 
 # to add to your discord channel,
 # https://discord.com/oauth2/authorize?client_id=769805113266798593&scope=bot
@@ -60,34 +61,6 @@ ghost_desc = dict({
     })
 
 
-# metric for similarity between strings for typo-fix
-def levenshtein(seq1, seq2):
-    size_x = len(seq1) + 1
-    size_y = len(seq2) + 1
-    matrix = np.zeros ((size_x, size_y))
-    for x in range(size_x):
-        matrix [x, 0] = x
-    for y in range(size_y):
-        matrix [0, y] = y
-
-    for x in range(1, size_x):
-        for y in range(1, size_y):
-            if seq1[x-1] == seq2[y-1]:
-                matrix [x,y] = min(
-                    matrix[x-1, y] + 1,
-                    matrix[x-1, y-1],
-                    matrix[x, y-1] + 1
-                )
-            else:
-                matrix [x,y] = min(
-                    matrix[x-1,y] + 1,
-                    matrix[x-1,y-1] + 1,
-                    matrix[x,y-1] + 1
-                )
-    #print (matrix)
-    return (matrix[size_x - 1, size_y - 1])
-
-
 # synonym function to translate user input smartly
 def syn(x):
     if len(x) > 2:
@@ -106,11 +79,11 @@ def syn(x):
                         'spirit': 'box'
                         })
         for key in aliases:
-            if all(item in key for item in x) or levenshtein(x.lower(), key) < 3:
+            if all(item in key for item in x) or lev(x.lower(), key):
                 return aliases[key]
         # typo match
         for evi in evidence:
-            if levenshtein(x.lower(), evi) < 3:
+            if lev(x.lower(), evi):
                 return evi
 
     # if only 2 chars or less this isnt worth it
@@ -120,7 +93,7 @@ def syn(x):
 # same but for ghost-names
 def syn_ghost(x):
     for ghost in ghosts:
-        if all(item in ghost for item in x) or levenshtein(x.lower(), ghost) < 3:
+        if all(item in ghost for item in x) or lev(x.lower(), ghost):
             return ghost
     return x
 
