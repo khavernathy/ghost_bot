@@ -142,6 +142,7 @@ async def ghost(ctx, msg):
     matches = []
     # split input args by comma
     clues = msg.split(",")
+    print("user input: ", clues)
     # input validation
     if any('' in clues for item in clues):
         await ctx.send('Dont use spaces between the commas.')
@@ -181,9 +182,10 @@ async def ghost(ctx, msg):
 
     else:
         await ctx.send('I dont understand u. Here i halp. Use like dis:'
-                       '\n**!ghost emf,box,prints,orbs,writing,freeze**'
-                       '\n**!info poltergeist**'
-                       '\n**!rand 6**')
+                       '\n\n**!ghost emf,box,prints,orbs,writing,freeze**'
+                       '\n\n**!info poltergeist**'
+                       '\n\n**!rand 6**'
+                       '\n\nRemember, no spaces between clues. :ghost:')
 
 
 # get information about a specific ghost-type

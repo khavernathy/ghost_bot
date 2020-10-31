@@ -30,10 +30,12 @@ def levenshtein(seq1, seq2):
 
     # determine if the strings "should be" the same or nah
     # small words should have tighter criteria
-    if len(seq1) < 4 or len(seq2) < 4:
-        if lev == 1:
+    if len(seq1) < 5 or len(seq2) < 5:
+        if lev < 2:
             return True
-    # two characters off is okay if the word(s) is 4+ letters i guess
+        else:
+            return False
+    # two characters off is okay if the word(s) is 5+ letters i guess
     elif lev < 3:
         return True
     else:
