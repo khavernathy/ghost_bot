@@ -79,7 +79,8 @@ def syn(x):
         for key in aliases:
             if lev(x.lower(), key):
                 return aliases[key]
-    return x
+    # if there's no match we return false
+    return False
 
 
 # same but for ghost-names
@@ -87,7 +88,8 @@ def syn_ghost(x):
     for ghost in ghosts:
         if lev(x.lower(), ghost):
             return ghost
-    return x
+    # if there's no match we return false
+    return False
 
 
 # get a string that shows the clues true for a given ghost with respect to user input clues
@@ -141,26 +143,32 @@ async def ghost(ctx, msg):
     # get match indices
     matches = []
     # split input args by comma
-    clues = msg.split(",")
-    print("user input: ", clues)
+    input_clues = msg.split(",")
+
     # input validation
-    if any('' in clues for item in clues):
+    if any('' in input_clues for item in input_clues):
         await ctx.send('Dont use spaces between the commas.')
         return
-    elif len(clues) > 3:
-        await ctx.send('No more than three clues allowed.')
+    elif len(input_clues) > 3:
+        await ctx.send('No more than 3 clues allowed.')
+        return
     # find synonyms and aliases
-    for i,clue in enumerate(clues):
-        clues[i] = syn(clue)
-    # show resultant clues to user first
-    await ctx.send(clues)
+    filtered_clues = []
+    for i, clue in enumerate(input_clues):
+        filtered_clues.append(syn(clue))
+    # if any bad entires, show and exit
+    if False in filtered_clues:
+        await ctx.send("I don't understand this hint: " + input_clues[filtered_clues.index(False)])
+        return
 
-    # find matches
-    for clue in clues:
-        clue = syn(clue) # get synonyms
-        for i,evi in enumerate(evidence):
+    # find clue-matches for the filtered (correct) clues
+    for clue in filtered_clues:
+        for i, evi in enumerate(evidence):
             if evi == clue:
                 matches.append(i)
+
+    #print("user input: ", input_clues)
+    #print("filtered to: ", filtered_clues)
 
     # check which ghosts could match
     if len(matches) > 0:
@@ -170,21 +178,21 @@ async def ghost(ctx, msg):
             if all(item in ghost_clues for item in matches):
                 ghost_matches.append(ghost)
 
-        #await ctx.send(clues)
         out_str = ""
         for candidate in ghost_matches:
-            out_str = out_str + ":ghost: `" + candidate + "`: " + ghost_clues_string(candidate, clues) + "\n"
-        await ctx.send(out_str)
+            out_str = out_str + ":ghost: `" + candidate + "`: " + ghost_clues_string(candidate, filtered_clues) + "\n"
+            await ctx.send(out_str)
 
         # finally, if we narrowed it down, show ghost info
         if len(ghost_matches) == 1:
             await ctx.send(ghost_desc[candidate])
 
     else:
-        await ctx.send('I dont understand u. Here i halp. Use like dis:'
-                       '\n\n**!ghost emf,box,prints,orbs,writing,freeze**'
-                       '\n\n**!info poltergeist**'
-                       '\n\n**!rand 6**'
+        await ctx.send('Examples:'
+                       '\n\n**!ghost emf,box,prints**'
+                       '\n**!ghost orbs,writing,freeze**'
+                       '\n**!info poltergeist**'
+                       '\n**!rand 6**'
                        '\n\nRemember, no spaces between clues. :ghost:')
 
 
@@ -192,9 +200,13 @@ async def ghost(ctx, msg):
 @bot.command(pass_context=True)
 async def info(ctx, msg):
     ghostname = syn_ghost(msg)
-    await ctx.send(':ghost: `' + ghostname + '`: ' +
-                   ghost_clues_string(ghostname, [], blanks=True) + '\n' +
-                   ghost_desc[ghostname])
+    if not ghostname:
+        await ctx.send("I don't understand the ghost you typed: " + msg)
+        return
+    else:
+        await ctx.send(':ghost: `' + ghostname + '`: ' +
+                       ghost_clues_string(ghostname, [], blanks=True) + '\n' +
+                       ghost_desc[ghostname])
 
 
 # run the bot using super special secret token
