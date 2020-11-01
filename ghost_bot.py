@@ -167,8 +167,8 @@ async def ghost(ctx, msg):
             if evi == clue:
                 matches.append(i)
 
-    #print("user input: ", input_clues)
-    #print("filtered to: ", filtered_clues)
+    print("user input: ", input_clues)
+    print("filtered to: ", filtered_clues)
 
     # check which ghosts could match
     if len(matches) > 0:
@@ -178,10 +178,11 @@ async def ghost(ctx, msg):
             if all(item in ghost_clues for item in matches):
                 ghost_matches.append(ghost)
 
+        print("ghost_matches: ", ghost_matches)
         out_str = ""
         for candidate in ghost_matches:
             out_str = out_str + ":ghost: `" + candidate + "`: " + ghost_clues_string(candidate, filtered_clues) + "\n"
-            await ctx.send(out_str)
+        await ctx.send(out_str)
 
         # finally, if we narrowed it down, show ghost info
         if len(ghost_matches) == 1:
