@@ -49,7 +49,7 @@ ghost_desc = dict({
     'shade': 'A Shade is known to be a shy Ghost. There is evidence that a Shade will stop all paranormal activity if there are multiple people nearby.'
              '\n\n:muscle: Strengths: Being shy means the Ghost will be harder to find.'
              '\n:no_entry: Weaknesses: The Ghost will not enter hunting mode if there is multiple people nearby.',
-    'demon': 'A Demon is one of the worst Ghosts you can encounter. It has been known to attach without a reason.'
+    'demon': 'A Demon is one of the worst Ghosts you can encounter. It has been known to attack without a reason.'
              '\n\n:muscle: Strengths: Demons will attack more often than any other Ghost.'
              '\n:no_entry: Weaknesses: Asking a Demon successful questions on the Ouija Board wont lower the users sanity.',
     'yurei': 'A Yurei is a Ghost that has returned to the physical world, usually for the purpose of revenge or hatred.'
@@ -109,6 +109,17 @@ def ghost_clues_string(ghost, clues, blanks=False):
     return m1 + evidence[inds[0]] + ", " + m2 + evidence[inds[1]] + ", " + m3 + evidence[inds[2]]
 
 
+def help_text():
+    return str('\nExamples:'
+               '\n\n**!ghost emf,box**'
+               '\n**!ghost prints,orbs**'
+               '\n**!ghost writing,freeze,orbs**'
+               '\n**!info poltergeist**'
+               '\n**!info wraith**'
+               '\n**!rand 6**'
+               '\n\nRemember, no spaces between clues. :ghost:')
+
+
 bot = commands.Bot(command_prefix='!')
 
 
@@ -148,9 +159,11 @@ async def ghost(ctx, msg):
     # input validation
     if any('' in input_clues for item in input_clues):
         await ctx.send('Dont use spaces between the commas.')
+        await ctx.send(help_text())
         return
     elif len(input_clues) > 3:
         await ctx.send('No more than 3 clues allowed.')
+        await ctx.send(help_text())
         return
     # find synonyms and aliases
     filtered_clues = []
@@ -159,6 +172,7 @@ async def ghost(ctx, msg):
     # if any bad entires, show and exit
     if False in filtered_clues:
         await ctx.send("I don't understand this hint: " + input_clues[filtered_clues.index(False)])
+        await ctx.send(help_text())
         return
 
     # find clue-matches for the filtered (correct) clues
@@ -189,12 +203,7 @@ async def ghost(ctx, msg):
             await ctx.send(ghost_desc[candidate])
 
     else:
-        await ctx.send('Examples:'
-                       '\n\n**!ghost emf,box,prints**'
-                       '\n**!ghost orbs,writing,freeze**'
-                       '\n**!info poltergeist**'
-                       '\n**!rand 6**'
-                       '\n\nRemember, no spaces between clues. :ghost:')
+        await ctx.send(help_text())
 
 
 # get information about a specific ghost-type
@@ -203,6 +212,7 @@ async def info(ctx, msg):
     ghostname = syn_ghost(msg)
     if not ghostname:
         await ctx.send("I don't understand the ghost you typed: " + msg)
+        await ctx.send(help_text())
         return
     else:
         await ctx.send(':ghost: `' + ghostname + '`: ' +
