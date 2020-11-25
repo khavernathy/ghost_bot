@@ -117,7 +117,8 @@ def help_text():
                '\n**!ginfo poltergeist**'
                '\n**!ginfo wraith**'
                '\n**!rand 6**'
-               '\n\nRemember, no spaces between clues. :ghost:')
+               '\n\nRemember, no spaces between clues. :ghost:'
+               '\nNote, **!info** is now **!ginfo**')
 
 
 bot = commands.Bot(command_prefix='!')
@@ -145,7 +146,7 @@ async def rand(ctx, val):
         val = int(val)
         await ctx.send(':game_die: ' + str(int(np.ceil(np.random.random() * val))))
     else:
-        await ctx.send('u didnt give me an integer binch')
+        await ctx.send("that's not an integer")
 
 
 # deduce which ghosties could be to blame based on evidence found
@@ -204,15 +205,6 @@ async def ghost(ctx, msg):
 
     else:
         await ctx.send(help_text())
-
-
-# deprecated
-@bot.command(pass_context=True)
-async def info(ctx, msg):
-    await ctx.send("the **!info** command is deprecated, and, like a human,"
-                   " will soon become a ghost.\n"
-                   "Use !ginfo instead.\n")
-    await ctx.send(help_text())
 
 
 # get information about a specific ghost-type
