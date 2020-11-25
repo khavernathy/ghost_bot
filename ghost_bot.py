@@ -114,8 +114,8 @@ def help_text():
                '\n\n**!ghost emf,box**'
                '\n**!ghost prints,orbs**'
                '\n**!ghost writing,freeze,orbs**'
-               '\n**!info poltergeist**'
-               '\n**!info wraith**'
+               '\n**!ginfo poltergeist**'
+               '\n**!ginfo wraith**'
                '\n**!rand 6**'
                '\n\nRemember, no spaces between clues. :ghost:')
 
@@ -206,9 +206,18 @@ async def ghost(ctx, msg):
         await ctx.send(help_text())
 
 
-# get information about a specific ghost-type
+# deprecated
 @bot.command(pass_context=True)
 async def info(ctx, msg):
+    await ctx.send("the **!info** command is deprecated, and, like a human,"
+                   " will soon become a ghost.\n"
+                   "Use !ginfo instead.\n")
+    await ctx.send(help_text())
+
+
+# get information about a specific ghost-type
+@bot.command(pass_context=True)
+async def ginfo(ctx, msg):
     ghostname = syn_ghost(msg)
     if not ghostname:
         await ctx.send("I don't understand the ghost you typed: " + msg)
