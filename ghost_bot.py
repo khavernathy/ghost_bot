@@ -131,7 +131,7 @@ async def on_ready():
 
 @bot.command()
 async def halp(ctx):
-    await ctx.send("Hey spookboi. Use me like this:\n !ghost emf,freeze,orbs")
+    await ctx.send(help_text())
 
 
 @bot.command()
