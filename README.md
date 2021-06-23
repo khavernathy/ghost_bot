@@ -6,6 +6,8 @@ Download here: https://discord.com/oauth2/authorize?client_id=769805113266798593
 
 top.gg page: https://top.gg/bot/769805113266798593
 
+Reddit announcement: https://www.reddit.com/r/PhasmophobiaGame/comments/juy94k/phasmophobia_discord_bot/
+
 
 ![ghost_bot](https://douglasfranz.com/ghost_bot.gif)
 
