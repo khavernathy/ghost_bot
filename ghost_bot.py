@@ -7,6 +7,8 @@ from levenshtein import levenshtein as lev
 # https://discord.com/oauth2/authorize?client_id=769805113266798593&scope=bot
 
 evidence = ['emf', 'box', 'prints', 'orbs', 'writing', 'freeze']
+#             0     1       2         3       4         5
+# ghosts can be ID'd by which evidence pertains to them.
 ghosts = dict({'spirit': [1, 2, 4],
                'wraith': [1, 2, 5],
                'phantom': [0, 3, 5],
@@ -19,7 +21,7 @@ ghosts = dict({'spirit': [1, 2, 4],
                'demon': [1, 4, 5],
                'yurei': [3, 4, 5],
                'yokai': [1, 3, 4],
-               'Hantu': [2, 4, 3],
+               'hantu': [2, 3, 4],
                'oni': [0, 1, 4]
                })
 
