@@ -18,6 +18,8 @@ ghosts = dict({'spirit': [1, 2, 4],
                'shade': [0, 3, 4],
                'demon': [1, 4, 5],
                'yurei': [3, 4, 5],
+               'yokai': [1, 3, 4],
+               'Hantu': [2, 4, 3],
                'oni': [0, 1, 4]
                })
 
@@ -55,6 +57,12 @@ ghost_desc = dict({
     'yurei': 'A Yurei is a Ghost that has returned to the physical world, usually for the purpose of revenge or hatred.'
              '\n\n:muscle: Strengths: Yureis have been known to have a stronger effect of peoples sanity.'
              '\n:no_entry: Weaknesses: Smudging the Yureis room will cause it to not wander around the location for a long time.',
+    'yokai': 'A common type of ghost that is attracted to human voices. They can usually be found haunting family homes.'
+             '\n\n:muscle: Strengths: Talking near a Yokai will anger it and cause it to attack more often.'
+             '\n:no_entry: Weaknesses: While hunting, it can only hear voices close to it.',
+    'hantu': 'A rare ghost that can be found in hot climates. They are known to attack more often in cold weather.'
+             '\n\n:muscle: Strengths: Hantu moves faster in colder areas.'
+             '\n:no_entry: Weaknesses: Hantu moves slower in warmer areas.',
     'oni': 'Onis are a cousin to the Demon and possess extreme strength.There have been rumors that they become more active around their prey.'
            '\n\n:muscle: Strengths: Onis are more active when people are nearby and have been seen moving objects at great speed.'
            '\n:no_entry: Weaknesses: Being more active will make the Oni easier to find and identify.'
