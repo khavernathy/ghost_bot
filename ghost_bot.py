@@ -95,6 +95,7 @@ def syn(x):
                         'book': 'writing',
                         'temp': 'freeze',
                         'freezing': 'freeze',
+                        'projector': 'dots',
                         })
         for key in aliases:
             if lev(x.lower(), key):
