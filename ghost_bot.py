@@ -6,23 +6,27 @@ from levenshtein import levenshtein as lev
 # to add to your discord channel,
 # https://discord.com/oauth2/authorize?client_id=769805113266798593&scope=bot
 
-evidence = ['emf', 'box', 'prints', 'orbs', 'writing', 'freeze']
-#             0     1       2         3       4         5
+evidence = ['emf', 'box', 'prints', 'orbs', 'writing', 'freeze', 'dots']
+#             0     1       2         3       4         5         6
 # ghosts can be ID'd by which evidence pertains to them.
-ghosts = dict({'spirit': [1, 2, 4],
-               'wraith': [1, 2, 5],
-               'phantom': [0, 3, 5],
-               'poltergeist': [1, 2, 3],
-               'banshee': [0, 2, 5],
-               'jinn': [0, 1, 3],
-               'mare': [1, 3, 5],
-               'revenant': [0, 2, 4],
-               'shade': [0, 3, 4],
-               'demon': [1, 4, 5],
-               'yurei': [3, 4, 5],
-               'yokai': [1, 3, 4],
-               'hantu': [2, 3, 4],
-               'oni': [0, 1, 4]
+def e2i(e):
+    return evidence.index(e)
+ghosts = dict({'spirit': [e2i("emf"), e2i("box"), e2i("writing")],
+               'wraith': [e2i("emf"), e2i("box"), e2i("dots")],
+               'phantom': [e2i("box"), e2i("prints"), e2i("dots")],
+               'poltergeist': [e2i("box"), e2i("prints"), e2i("writing")],
+               'banshee': [e2i("prints"), e2i("orbs"), e2i("dots")],
+               'jinn': [e2i("emf"), e2i("prints"), e2i("freeze")],
+               'mare': [e2i("box"), e2i("orbs"), e2i("writing")],
+               'revenant': [e2i("orbs"), e2i("writing"), e2i("freeze")],
+               'shade': [e2i("emf"), e2i("writing"), e2i("freeze")],
+               'demon': [e2i("prints"), e2i("writing"), e2i("freeze")],
+               'yurei': [e2i("orbs"), e2i("freeze"), e2i("dots")],
+               'yokai': [e2i("box"), e2i("orbs"), e2i("dots")],
+               'hantu': [e2i("prints"), e2i("orbs"), e2i("freeze")],
+               'oni': [e2i("emf"), e2i("freeze"), e2i("dots")],
+               'goryo': [e2i("emf"), e2i("prints"), e2i("dots")],
+               'myling': [e2i("emf"), e2i("prints"), e2i("writing")],
                })
 
 ghost_desc = dict({
@@ -67,7 +71,13 @@ ghost_desc = dict({
              '\n:no_entry: Weaknesses: Hantu moves slower in warmer areas.',
     'oni': 'Onis are a cousin to the Demon and possess extreme strength.There have been rumors that they become more active around their prey.'
            '\n\n:muscle: Strengths: Onis are more active when people are nearby and have been seen moving objects at great speed.'
-           '\n:no_entry: Weaknesses: Being more active will make the Oni easier to find and identify.'
+           '\n:no_entry: Weaknesses: Being more active will make the Oni easier to find and identify.',
+    'goryo': 'When a Goryo passes through a DOTS Projector, using a video camera is the only way to see it.'
+           '\n\n:muscle: Strengths: A Goryo will usually only show itself on camera if there are no people nearby.'
+           '\n:no_entry: Weaknesses: They are rarely seen far from their place of death.',
+    'myling': 'A Myling is a very vocal and active ghost. They are rumoured to be quiet when hunting their prey.'
+           '\n\n:muscle: Strengths: A Myling is known to be quieter when hunting.'
+           '\n:no_entry: Weaknesses: Mylings more frequently make paranormal sounds.',
     })
 
 
