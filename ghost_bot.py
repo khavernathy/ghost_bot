@@ -172,18 +172,16 @@ async def rand(ctx, val):
 
 # deduce which ghosties could be to blame based on evidence found
 @bot.command(pass_context=True)
-async def ghost(ctx, msg):
+async def ghost(ctx, *, msg=None):
     # get match indices
     matches = []
     # split input args by comma
     input_clues = msg.split(",")
+    # remove whitespace and empty listings
+    input_clues = [clue.replace(" ", "") for clue in input_clues if clue != ""]
 
     # input validation
-    if any('' in input_clues for item in input_clues):
-        await ctx.send('Dont use spaces between the commas.')
-        await ctx.send(help_text())
-        return
-    elif len(input_clues) > 3:
+    if len(input_clues) > 3:
         await ctx.send('No more than 3 clues allowed.')
         await ctx.send(help_text())
         return
@@ -215,6 +213,10 @@ async def ghost(ctx, msg):
                 ghost_matches.append(ghost)
 
         print("ghost_matches: ", ghost_matches)
+        if len(ghost_matches) == 0:
+            await ctx.send("No ghost matches those clues.")
+            await ctx.send(help_text())
+            return
         out_str = ""
         for candidate in ghost_matches:
             out_str = out_str + ":ghost: `" + candidate + "`: " + ghost_clues_string(candidate, filtered_clues) + "\n"
