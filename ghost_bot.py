@@ -172,6 +172,11 @@ async def rand(ctx, val):
 # deduce which ghosties could be to blame based on evidence found
 @bot.command(pass_context=True)
 async def ghost(ctx, *, msg=None):
+
+    if msg is None:
+        await ctx.send("You didn't enter any ghost clues.")
+        await ctx.send(help_text())
+
     # get match indices
     matches = []
     # split input args by comma
@@ -231,7 +236,11 @@ async def ghost(ctx, *, msg=None):
 
 # get information about a specific ghost-type
 @bot.command(pass_context=True)
-async def ginfo(ctx, msg):
+async def ginfo(ctx, msg=None):
+    if msg is None:
+        await ctx.send("You didn't enter a ghost name.")
+        await ctx.send(help_text())
+
     ghostname = syn_ghost(msg)
     if not ghostname:
         await ctx.send("I don't understand the ghost you typed: " + msg)
