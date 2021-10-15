@@ -138,8 +138,7 @@ def help_text():
                '\n**!ginfo poltergeist**'
                '\n**!ginfo wraith**'
                '\n**!rand 6**'
-               '\n\nRemember, no spaces between clues. :ghost:'
-               '\nNote, **!info** is now **!ginfo**')
+               '\n\nNote, **!info** is now **!ginfo**')
 
 
 bot = commands.Bot(command_prefix='!')
