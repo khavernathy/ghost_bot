@@ -27,6 +27,10 @@ ghosts = dict({'spirit': [e2i("emf"), e2i("box"), e2i("writing")],
                'oni': [e2i("emf"), e2i("freeze"), e2i("dots")],
                'goryo': [e2i("emf"), e2i("prints"), e2i("dots")],
                'myling': [e2i("emf"), e2i("prints"), e2i("writing")],
+               'obake': [e2i("emf"), e2i("prints"), e2i("orbs")],
+               'onryo': [e2i("box"), e2i("orbs"), e2i("freeze")],
+               'raiju': [e2i("emf"), e2i("orbs"), e2i("dots")],
+               'thetwins': [e2i("emf"), e2i("box"), e2i("freeze")],
                })
 
 ghost_desc = dict({
@@ -78,6 +82,18 @@ ghost_desc = dict({
     'myling': 'A Myling is a very vocal and active ghost. They are rumoured to be quiet when hunting their prey.'
            '\n\n:muscle: Strengths: A Myling is known to be quieter when hunting.'
            '\n:no_entry: Weaknesses: Mylings more frequently make paranormal sounds.',
+    'obake': 'Obake are terrifying shape-shifters, capable of taking on many forms. They have been seen taking on humanoid shapes to attract their prey.'
+           '\n\n:muscle: Strengths: Rarely leaves a trace when interacting with the environment.'
+           '\n:no_entry: Weaknesses: Sometimes leaves behind unique evidence.',
+    'onryo': 'The Onryo is often referred to as "The Wrathful Spirit." It steals souls from dying victims bodies to seek revenge. This ghost has been known to fear any form of fire, and will do anything to be far from it.'
+           '\n\n:muscle: Strengths: Extinguishing a flame can cause an Onryo to attack.'
+           '\n:no_entry: Weaknesses: When threatened, this ghost will be less likely to hunt.',
+    'raiju': 'A Raiju is a demon that thrives on electrical current. While generally calm, they can become agitated when overwhelmed with power.'
+           '\n\n:muscle: Strengths: Moves faster near electrical devices.'
+           '\n:no_entry: Weaknesses: Constantly disrupt electronic equipment.',
+    'thetwins': 'These ghosts have been reported to mimic each others actions. They alternate their attacks to confuse their prey.'
+           '\n\n:muscle: Strengths: Either Twin can be angered and initiate an attack on their prey.'
+           '\n:no_entry: Weaknesses:The Twins will often interact with the environment at the same time.',
     })
 
 
@@ -91,11 +107,13 @@ def syn(x):
         # alias match. Order matters because edge cases suck
         aliases = dict({'spirit': 'box',
                         'radio': 'box',
+                        'orb': 'orbs',
                         'finger': 'prints',
                         'book': 'writing',
                         'temp': 'freeze',
                         'freezing': 'freeze',
                         'projector': 'dots',
+                        'dot': 'dots',
                         })
         for key in aliases:
             if lev(x.lower(), key):
