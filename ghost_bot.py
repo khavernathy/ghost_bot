@@ -5,29 +5,38 @@ from levenshtein import levenshtein as lev
 
 # to add to your discord channel,
 # https://discord.com/oauth2/authorize?client_id=769805113266798593&scope=bot
-
 evidence = ['emf', 'box', 'prints', 'orbs', 'writing', 'freeze', 'dots']
 #             0     1       2         3       4         5         6
+
+
 # ghosts can be ID'd by which evidence pertains to them.
 def e2i(e):
     return evidence.index(e)
-ghosts = dict({'spirit': [e2i("emf"), e2i("box"), e2i("writing")],
-               'wraith': [e2i("emf"), e2i("box"), e2i("dots")],
-               'phantom': [e2i("box"), e2i("prints"), e2i("dots")],
-               'poltergeist': [e2i("box"), e2i("prints"), e2i("writing")],
-               'banshee': [e2i("prints"), e2i("orbs"), e2i("dots")],
-               'jinn': [e2i("emf"), e2i("prints"), e2i("freeze")],
-               'mare': [e2i("box"), e2i("orbs"), e2i("writing")],
-               'revenant': [e2i("orbs"), e2i("writing"), e2i("freeze")],
-               'shade': [e2i("emf"), e2i("writing"), e2i("freeze")],
-               'demon': [e2i("prints"), e2i("writing"), e2i("freeze")],
-               'yurei': [e2i("orbs"), e2i("freeze"), e2i("dots")],
-               'yokai': [e2i("box"), e2i("orbs"), e2i("dots")],
-               'hantu': [e2i("prints"), e2i("orbs"), e2i("freeze")],
-               'oni': [e2i("emf"), e2i("freeze"), e2i("dots")],
-               'goryo': [e2i("emf"), e2i("prints"), e2i("dots")],
-               'myling': [e2i("emf"), e2i("prints"), e2i("writing")],
-               })
+
+
+ghosts = {
+    'spirit': [e2i("emf"), e2i("box"), e2i("writing")],
+    'wraith': [e2i("emf"), e2i("box"), e2i("dots")],
+    'phantom': [e2i("box"), e2i("prints"), e2i("dots")],
+    'poltergeist': [e2i("box"), e2i("prints"), e2i("writing")],
+    'banshee': [e2i("prints"), e2i("orbs"), e2i("dots")],
+    'jinn': [e2i("emf"), e2i("prints"), e2i("freeze")],
+    'mare': [e2i("box"), e2i("orbs"), e2i("writing")],
+    'revenant': [e2i("orbs"), e2i("writing"), e2i("freeze")],
+    'shade': [e2i("emf"), e2i("writing"), e2i("freeze")],
+    'demon': [e2i("prints"), e2i("writing"), e2i("freeze")],
+    'yurei': [e2i("orbs"), e2i("freeze"), e2i("dots")],
+    'oni': [e2i("emf"), e2i("freeze"), e2i("dots")],
+    'yokai': [e2i("box"), e2i("orbs"), e2i("dots")],
+    'hantu': [e2i("prints"), e2i("orbs"), e2i("freeze")],
+    'goryo': [e2i("emf"), e2i("prints"), e2i("dots")],
+    'myling': [e2i("emf"), e2i("prints"), e2i("writing")],
+    'onryo': [e2i("box"), e2i("orbs"), e2i("freeze")],
+    'the twins': [e2i("emf"), e2i("box"), e2i("freeze")],
+    'raiju': [e2i("emf"), e2i("orbs"), e2i("dots")],
+    'obake': [e2i("emf"), e2i("prints"), e2i("orbs")],
+    'the mimic': [e2i("box"), e2i("prints"), e2i("freeze")],
+}
 
 ghost_desc = dict({
     'spirit': 'A spirit is the most common Ghost you will come across however it is still very powerful and dangerous. They are usually discovered at one of their hunting grounds after an unexplained death.'
@@ -63,21 +72,36 @@ ghost_desc = dict({
     'yurei': 'A Yurei is a Ghost that has returned to the physical world, usually for the purpose of revenge or hatred.'
              '\n\n:muscle: Strengths: Yureis have been known to have a stronger effect of peoples sanity.'
              '\n:no_entry: Weaknesses: Smudging the Yureis room will cause it to not wander around the location for a long time.',
+    'oni': 'Onis are a cousin to the Demon and possess extreme strength.There have been rumors that they become more active around their prey.'
+           '\n\n:muscle: Strengths: Onis are more active when people are nearby and have been seen moving objects at great speed.'
+           '\n:no_entry: Weaknesses: Being more active will make the Oni easier to find and identify.',
     'yokai': 'A common type of ghost that is attracted to human voices. They can usually be found haunting family homes.'
              '\n\n:muscle: Strengths: Talking near a Yokai will anger it and cause it to attack more often.'
              '\n:no_entry: Weaknesses: While hunting, it can only hear voices close to it.',
     'hantu': 'A rare ghost that can be found in hot climates. They are known to attack more often in cold weather.'
              '\n\n:muscle: Strengths: Hantu moves faster in colder areas.'
              '\n:no_entry: Weaknesses: Hantu moves slower in warmer areas.',
-    'oni': 'Onis are a cousin to the Demon and possess extreme strength.There have been rumors that they become more active around their prey.'
-           '\n\n:muscle: Strengths: Onis are more active when people are nearby and have been seen moving objects at great speed.'
-           '\n:no_entry: Weaknesses: Being more active will make the Oni easier to find and identify.',
     'goryo': 'When a Goryo passes through a DOTS Projector, using a video camera is the only way to see it.'
            '\n\n:muscle: Strengths: A Goryo will usually only show itself on camera if there are no people nearby.'
            '\n:no_entry: Weaknesses: They are rarely seen far from their place of death.',
     'myling': 'A Myling is a very vocal and active ghost. They are rumoured to be quiet when hunting their prey.'
            '\n\n:muscle: Strengths: A Myling is known to be quieter when hunting.'
            '\n:no_entry: Weaknesses: Mylings more frequently make paranormal sounds.',
+    'onryo': 'The Onryo is often referred to as "The Wrathful Spirit". It steals souls from dying victims bodies to seek revenge. This ghost has been known to fear any form of fire, and will do anything to be far from it.'
+            '\n\n:muscle: Strengths: Extinguishing a flame can cause an Onryo to attack'
+            '\n:no_entry: Weaknesses: When threatened, this ghost will be less likely to hunt.',
+    'the twins': 'These ghosts have been reported to mimic each others actions. They alternate their attacks to confuse their prey.'
+            '\n\n:muscle: Strenghts: Either Twin can be angered and initiate an attack on their prey.'
+            '\n:no_entry: Weaknesses: The Twins will often interact with the environment at the same time.',
+    'raiju': 'A Raiju is a demon that thrives on electrical current. While generally calm, they can become agitated when overwhelmed with power.'
+            '\n\n:muscle: Strengths: A Raiju can siphon power from nearby electrical devices, making it move faster'
+            '\n:no_entry: Weaknesses: Raiju are constantly disrupting electronic equipment when attacking, making it easier to track.',
+    'obake': 'Obake are terrifying shape-shifters, capable of taking on many forms. They have been seen taking on humanoid shapes to attract their prey.'
+             '\n\n:muscle: Strengths: When interacting with the environment, an Obake will rarely leave a trace.'
+             '\n:no_entry: Weaknesses: Sometimes this ghost will shapeshift, leaving behind unique evidence.',
+    'the mimic': 'The Mimic is an elusive, mysterious copycat ghost that mirrors traits and behaivors from others, including other ghost types.'
+             '\n\n:muscle: Strengths: Were unsure what this ghost is capable of. Be careful.'
+             '\n:no_entry: Several reports have noted ghost orb sightings near mimics.',
     })
 
 
